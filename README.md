@@ -118,7 +118,7 @@ esptool.py --chip esp32h2 --port COMx --baud 460800 write_flash --flash_mode dio
 
 ### OTA
 
-`OTA_IMAGE_TYPE = 0x0105` in `main/ota.h` (distinct from `smart_switch`'s `0x0104`), so an OTA update meant for one firmware can't be offered/accepted by the other. Initial version: v1.0.0. Note the `.ota` file (built with `make_ota.py`, see the repository root's tooling) is only for **over-the-air updates of a device already joined to the Zigbee network** — it is not usable for the first flash; use Option A or B above for that.
+`OTA_IMAGE_TYPE = 0x0105` in `main/ota.h', so an OTA update meant for one firmware can't be offered/accepted by the other. Initial version: v1.0.0. Note the `.ota` file (built with `make_ota.py`, see the repository root's tooling) is only for **over-the-air updates of a device already joined to the Zigbee network** — it is not usable for the first flash; use Option A or B above for that.
 
 ## Bill of Materials
 
@@ -126,8 +126,8 @@ Full BOM available in [`hardware/BOM.xlsx`](hardware/BOM.xlsx) in this repo, and
 
 ## Assembly
 
-1. Solder SMD components (resistors, capacitors, MOSFETs, LED) — reflow or hot air
-2. Solder the ESP32-H2-MINI module
+1. Solder the ESP32-H2-MINI module
+2. Solder SMD components (resistors, capacitors, MOSFETs, LED) — reflow or hot air
 3. Solder the U9 UART header (bench use only, can be removed after first flash)
 4. Flash the firmware via U9 — either build from source or flash the ready-made files in [`binaries/`](binaries/) with `esptool.py` (see [Building and flashing](#building-and-flashing) above)
 5. Solder H1 and H3 right-angle headers
@@ -136,6 +136,9 @@ Full BOM available in [`hardware/BOM.xlsx`](hardware/BOM.xlsx) in this repo, and
 8. Connect H3 → the case's original power and reset buttons
 9. Set BIOS: `ErP Ready` OFF, `Power on by PCI-E` ON
 10. Add the device in Home Assistant via ZHA
+
+## P.S.
+photos are from rev.1 without status reading from A10 (not-always-present 3,3V)
 
 ## License
 

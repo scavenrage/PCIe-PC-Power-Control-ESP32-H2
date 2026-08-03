@@ -65,15 +65,7 @@ The firmware, as distributed, defaults to **a single channel configured as a sta
 
 ## Bill of Materials
 
-| Designator | Part | Qty | Supplier Part # |
-|---|---|---|---|
-| U3 | ESP32-H2-MINI-1-N4 | 1 | LCSC C18203134 |
-| R1, R2, R5, R19, R6 | 10 kΩ 0603 | 5 | LCSC C25804 |
-| C1 | 100 nF 0603 | 1 | LCSC C30926 |
-| U9 | 4-pin header (UART, bench only) | 1 | LCSC C2935898 |
-| H2 | 2-pin header, right-angle | 1 | — |
-
-*Full BOM with all passive/MOSFET values available in the [OSHWLab project](https://oshwlab.com/scavenrage/project_nexpziyw) and in `BOM.csv` in this repo.*
+Full BOM available in [`BOM.csv`](./BOM.csv) in this repo, and in the [OSHWLab project](https://oshwlab.com/scavenrage/project_nexpziyw).
 
 ## License
 

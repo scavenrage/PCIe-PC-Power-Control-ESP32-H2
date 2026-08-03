@@ -3,7 +3,7 @@
 A PCIe x1 card that allows remote power control of a desktop PC via Zigbee (Home Assistant/ZHA), using an ESP32-H2 module. It draws power from the PCIe slot's 3.3Vaux rail (active even when the PC is off) and controls the motherboard's PWR_SW and RESET pins via two N-channel MOSFETs, simulating physical button presses. The card also senses the PC's real power state from the slot's standard (switched) 3.3V rail and reports it over Zigbee.
 
 **Interactive schematic, PCB view, and BOM:** https://oshwlab.com/scavenrage/project_nexpziyw
-**Firmware:** included in this repository (`main/`) — a dedicated build, not the shared `smart_switch` firmware from [ESP32-H2-Custom-Zigbee](https://github.com/scavenrage/ESP32-H2-Custom-Zigbee).
+**Firmware:** included in this repository (`main/`).
 
 ---
 
@@ -23,7 +23,7 @@ Full remote power management of a desktop PC, integrated into a broader voice-co
 
 | | |
 |---|---|
-| MCU | ESP32-H2-MINI-1-N4 (WiFi + Bluetooth + Zigbee) |
+| MCU | ESP32-H2-MINI-1-N4 (Bluetooth LE 5 + IEEE 802.15.4/Zigbee — no WiFi radio) |
 | Power supply | 3.3Vaux from PCIe slot (pin B10), active in S5 state |
 | Outputs | 2× independent, N-channel MOSFET (SOT-23), PWR_SW (GPIO4) and RESET (GPIO5) |
 | Sense input | GPIO1, PC real power state from the PCIe slot's standard (switched) 3.3V rail |

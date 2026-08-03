@@ -1,0 +1,51 @@
+#
+# Flash size — ESP32-H2-MINI has 4MB
+#
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="4MB"
+
+#
+# Partition Table
+#
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_OFFSET=0x8000
+CONFIG_PARTITION_TABLE_MD5=y
+
+#
+# mbedTLS — required by the Zigbee security layer
+#
+CONFIG_MBEDTLS_HARDWARE_AES=n
+CONFIG_MBEDTLS_HARDWARE_MPI=n
+CONFIG_MBEDTLS_HARDWARE_SHA=n
+CONFIG_MBEDTLS_CMAC_C=y
+CONFIG_MBEDTLS_SSL_PROTO_DTLS=y
+CONFIG_MBEDTLS_KEY_EXCHANGE_ECJPAKE=y
+CONFIG_MBEDTLS_ECJPAKE_C=y
+
+#
+# Zboss — ZCZR enables both Coordinator and Router (role picked at runtime)
+#
+CONFIG_ZB_ENABLED=y
+CONFIG_ZB_ZCZR=y
+
+#
+# Radio and system performance
+# IEEE802154_TIMING_OPTIMIZATION: improves radio stability and OTA throughput
+# FREERTOS_HZ=1000: improves task responsiveness (default 100, Espressif
+# recommends 1000 for Zigbee)
+#
+CONFIG_IEEE802154_TIMING_OPTIMIZATION=y
+CONFIG_FREERTOS_HZ=1000
+
+#
+# Brownout detector — minimum threshold (level 0, ~2.43V).
+# Inherited from smart_switch (230VAC->5V->3.3V LDO board). On the PCIe
+# power control board, power comes from the slot's 3.3Vaux: a low
+# threshold is still a reasonable precaution to tolerate any transients on
+# the PCIe rail without false brownouts. Verify in the field if this
+# proves unnecessary.
+#
+CONFIG_ESP_BROWNOUT_DET_LVL_SEL_0=y
+CONFIG_ESP_BROWNOUT_DET_LVL=0

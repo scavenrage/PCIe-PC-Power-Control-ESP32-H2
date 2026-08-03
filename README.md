@@ -78,6 +78,8 @@ Not achievable with standard firmware/ZCL alone: an On/Off cluster in server rol
 
 ### Building and flashing
 
+**Option A — building from source (requires ESP-IDF):**
+
 ```
 idf.py set-target esp32h2
 idf.py build
@@ -86,9 +88,37 @@ idf.py -p COMx flash
 
 No NVS/configure.py step needed: the `nvs` partition stays empty/unused by this firmware.
 
+**Option B — flashing the pre-built binaries (no ESP-IDF needed):**
+
+For the very first flash (via the U9 UART header) you don't need the full ESP-IDF toolchain — just [esptool.py](https://github.com/espressif/esptool), a lightweight standalone tool:
+
+```
+pip install esptool
+```
+
+Then flash the 4 files in [`binaries/`](binaries/) at their fixed offsets in a single command:
+
+```
+esptool.py --chip esp32h2 --port COMx --baud 460800 write_flash --flash_mode dio --flash_freq 48m --flash_size 4MB ^
+  0x0     binaries/bootloader.bin ^
+  0x8000  binaries/partition-table.bin ^
+  0x10000 binaries/ota_data_initial.bin ^
+  0x20000 binaries/pcie_power_control.bin
+```
+
+(On Linux/macOS replace the trailing `^` line continuations with `\`.) Replace `COMx` with the actual serial port (e.g. `COM12` on Windows, `/dev/ttyUSB0` on Linux). No `nvs_config.bin` step is needed — unlike `smart_switch`, this firmware doesn't use the NVS partition at all.
+
+> **Keeping `binaries/` in sync:** these 4 files are a snapshot of a specific build. After any firmware change, regenerate them from a fresh `idf.py build`:
+> ```
+> cp build/bootloader/bootloader.bin      binaries/bootloader.bin
+> cp build/partition_table/partition-table.bin  binaries/partition-table.bin
+> cp build/ota_data_initial.bin           binaries/ota_data_initial.bin
+> cp build/pcie_power_control.bin         binaries/pcie_power_control.bin
+> ```
+
 ### OTA
 
-`OTA_IMAGE_TYPE = 0x0105` in `main/ota.h` (distinct from `smart_switch`'s `0x0104`), so an OTA update meant for one firmware can't be offered/accepted by the other. Initial version: v1.0.0.
+`OTA_IMAGE_TYPE = 0x0105` in `main/ota.h` (distinct from `smart_switch`'s `0x0104`), so an OTA update meant for one firmware can't be offered/accepted by the other. Initial version: v1.0.0. Note the `.ota` file (built with `make_ota.py`, see the repository root's tooling) is only for **over-the-air updates of a device already joined to the Zigbee network** — it is not usable for the first flash; use Option A or B above for that.
 
 ## Bill of Materials
 
@@ -99,7 +129,7 @@ Full BOM available in [`hardware/BOM.xlsx`](hardware/BOM.xlsx) in this repo, and
 1. Solder SMD components (resistors, capacitors, MOSFETs, LED) — reflow or hot air
 2. Solder the ESP32-H2-MINI module
 3. Solder the U9 UART header (bench use only, can be removed after first flash)
-4. Flash the firmware via U9 (`idf.py set-target esp32h2 && idf.py build && idf.py -p COMx flash` — see [Firmware](#firmware) above)
+4. Flash the firmware via U9 — either build from source or flash the ready-made files in [`binaries/`](binaries/) with `esptool.py` (see [Building and flashing](#building-and-flashing) above)
 5. Solder H1 and H3 right-angle headers
 6. Insert the card into a free PCIe x1 slot
 7. Connect H1 → motherboard front panel header (PWR/GND/RES/GND)

@@ -46,6 +46,10 @@ Full remote power management of a desktop PC, integrated into a broader voice-co
 - The H2 boot header is not populated — GPIO9 is handled directly during first programming via U9.
 - Windows Fast Startup does **not** interfere — the card simulates a physical button press, not a network wake signal.
 
+## ⚠️ Critical: firmware configuration
+
+The firmware, as distributed, defaults to **a single channel configured as a stable relay** if you skip `configure.py` and flash the pre-built binaries as-is — this default is **not compatible** with this board and can hold the outputs active indefinitely. Before flashing, you **must** run the `configure.py` wizard from the [firmware repo](https://github.com/scavenrage/ESP32-H2-Custom-Zigbee) and select **2 channels**, both set to **"impulse relay"** (CH1 = PWR_SW, CH2 = RESET). If this step is skipped or a different channel type is chosen, the GPIO output stays permanently HIGH instead of pulsing for 300 ms — holding PWR_SW or RESET continuously active, preventing the machine from powering on or keeping it stuck in reset. Follow the firmware repo's instructions exactly and generate your own `nvs_config.bin` before first flash.
+
 ## Assembly
 
 1. Solder SMD components (resistors, capacitors, MOSFETs, LED) — reflow or hot air

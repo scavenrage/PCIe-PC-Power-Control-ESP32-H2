@@ -143,4 +143,5 @@ photos are from rev.1 without status reading from A10 (not-always-present 3,3V)
 
 ## License
 
-Hardware released under [CERN-OHL-P-2.0](https://ohwr.org/cern_ohl_p_v2.txt), matching the OSHWLab project license.
+- Firmware: MIT — see [LICENSE](LICENSE).
+- Hardware (`hardware/`: schematics, PCB, Gerber, BOM): CERN-OHL-P-2.0 — see [hardware/LICENSE](hardware/LICENSE), matching the OSHWLab project license.
